@@ -1,6 +1,7 @@
-# Diretrizes de Clean Code — MediFlow API
+# Padroes de Codigo — MediFlow API
 
-> Regras inegociaveis para todo codigo commitado no repositorio.
+> Regras obrigatorias para todo codigo do repositorio.
+> Agentes de IA e desenvolvedores devem seguir estas regras ao gerar ou revisar codigo.
 > Aplica-se a: Mateus, Lucas, Marcello, Vitor e Joao.
 
 ---

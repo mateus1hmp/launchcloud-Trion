@@ -104,7 +104,7 @@ launchcloud-Trion/
 ├── infra/                        # Templates de infraestrutura como código (IaC)
 ├── docs/                         # Documentação complementar e diagramas
 ├── .gitignore
-├── GUIDELINES.md
+├── PADROES_DE_CODIGO.md
 ├── README.md
 └── package.json                  # ou requirements.txt
 ```
