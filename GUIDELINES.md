@@ -30,7 +30,7 @@ def calculate_risk_score(patient_data):
 
 - Cada funcao faz **uma coisa**. Se voce usa "e" para descrever o que ela faz, quebre em duas.
 - O motor de regras **nao** acessa banco de dados. O handler **nao** calcula score. Respeite as camadas.
-- Funcoes do `domain/` devem ser **puras**: mesma entrada, mesma saida, sem efeitos colaterais.
+- Funcoes do `dominio/` devem ser **puras**: mesma entrada, mesma saida, sem efeitos colaterais.
 - Limite de **30 linhas** por funcao como referencia. Se ultrapassar, revise a responsabilidade.
 
 ```
@@ -41,13 +41,13 @@ def handle_triage(data):
     return score
 
 # Bom — cada camada faz o seu papel
-# domain/rules/
+# dominio/regras/
 def calculate_risk_score(patient_data): ...
 
-# use_cases/
+# casos_de_uso/
 def execute_triage(patient_data, repository): ...
 
-# handlers/
+# manipuladores/
 def triage_handler(event): ...
 ```
 

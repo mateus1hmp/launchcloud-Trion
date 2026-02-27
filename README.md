@@ -87,26 +87,26 @@ curl -X POST http://localhost:3000/triage \
 ```
 launchcloud-Trion/
 ├── src/
-│   ├── domain/                # Núcleo — entidades e regras de negócio
-│   │   ├── entities/          #   Modelos puros (Patient, Triage, RiskFactor)
-│   │   └── rules/             #   Motor de regras de pontuação e classificação
-│   ├── use_cases/             # Orquestração — casos de uso da triagem
-│   ├── infrastructure/        # Adaptadores externos
-│   │   ├── database/          #   Conexão e operações com banco NoSQL
-│   │   └── logging/           #   Logs estruturados em JSON (request_id, LGPD)
-│   ├── handlers/              # Entry points das funções Serverless (Lambda/CF)
-│   └── shared/                # Código compartilhado entre camadas
-│       ├── exceptions/        #   Exceções customizadas (ValidationError, etc.)
-│       └── schemas/           #   DTOs e validação de payloads de entrada/saída
-├── tests/
-│   ├── unit/                  # Testes unitários do motor de regras
-│   └── integration/           # Testes de integração dos endpoints
-├── infra/                     # Templates de infraestrutura como código (IaC)
-├── docs/                      # Documentação complementar e diagramas
+│   ├── dominio/                  # Núcleo — entidades e regras de negócio
+│   │   ├── entidades/            #   Modelos puros (Patient, Triage, RiskFactor)
+│   │   └── regras/               #   Motor de regras de pontuação e classificação
+│   ├── casos_de_uso/             # Orquestração — casos de uso da triagem
+│   ├── infraestrutura/           # Adaptadores externos
+│   │   ├── banco_de_dados/       #   Conexão e operações com banco NoSQL
+│   │   └── logs/                 #   Logs estruturados em JSON (request_id, LGPD)
+│   ├── manipuladores/            # Entry points das funções Serverless (Lambda/CF)
+│   └── compartilhado/            # Código compartilhado entre camadas
+│       ├── excecoes/             #   Exceções customizadas (ValidationError, etc.)
+│       └── esquemas/             #   DTOs e validação de payloads de entrada/saída
+├── testes/
+│   ├── unitarios/                # Testes unitários do motor de regras
+│   └── integracao/               # Testes de integração dos endpoints
+├── infra/                        # Templates de infraestrutura como código (IaC)
+├── docs/                         # Documentação complementar e diagramas
 ├── .gitignore
 ├── GUIDELINES.md
 ├── README.md
-└── package.json               # ou requirements.txt
+└── package.json                  # ou requirements.txt
 ```
 
 ---
