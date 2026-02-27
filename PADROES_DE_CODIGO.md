@@ -91,9 +91,46 @@ except Exception as e:
 
 ---
 
-## 5. Commits e Organizacao
+## 5. Padrao de Commits (Conventional Commits)
 
-- Commits em ingles, no imperativo: `Add risk score calculation`, nao `added stuff`.
-- Um commit = uma mudanca logica. Nao misture refatoracao com feature nova.
-- Todo codigo deve passar nos testes **antes** de ser enviado ao branch principal.
-- Pull Requests exigem revisao de pelo menos **1 outro membro** do time.
+Todos os commits seguem o formato:
+
+```
+<tipo>: <descricao curta em ingles>
+```
+
+### Tipos permitidos
+
+| Tipo       | Quando usar                                      | Exemplo                                    |
+|------------|--------------------------------------------------|--------------------------------------------|
+| `feat`     | Nova funcionalidade                              | `feat: add risk score calculation`         |
+| `fix`      | Correcao de bug                                  | `fix: handle missing patient_id in payload`|
+| `docs`     | Apenas documentacao                              | `docs: update README with setup steps`     |
+| `refactor` | Refatoracao sem mudar comportamento              | `refactor: extract score rules to module`  |
+| `test`     | Adicionar ou corrigir testes                     | `test: add unit tests for triage engine`   |
+| `chore`    | Tarefas de manutencao (configs, deps, CI)        | `chore: add .gitignore for serverless`     |
+| `style`    | Formatacao, espacos, ponto-e-virgula (sem logica)| `style: fix indentation in handler`        |
+
+### Regras
+
+- Descricao em **ingles**, no **imperativo**: `add`, `fix`, `update` (nao `added`, `fixing`)
+- Maximo de **72 caracteres** na primeira linha
+- Um commit = **uma mudanca logica**. Nao misture refatoracao com feature
+- Todo codigo deve passar nos testes **antes** de ir para o branch principal
+- Pull Requests exigem revisao de pelo menos **1 outro membro** do time
+
+### Exemplos completos
+
+```bash
+# Bom
+git commit -m "feat: add heart rate threshold rule"
+git commit -m "fix: return 400 when patient_id is missing"
+git commit -m "docs: add commit convention to README"
+git commit -m "test: cover edge case for score zero"
+
+# Ruim
+git commit -m "changes"
+git commit -m "fix stuff"
+git commit -m "WIP"
+git commit -m "feat: add rule and also fix bug and update docs"
+```
