@@ -5,7 +5,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/segmento-HealthTech-00C9A7?style=for-the-badge" alt="HealthTech" />
+  <img src="https://img.shields.io/badge/cloud-AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" alt="AWS" />
   <img src="https://img.shields.io/badge/arquitetura-Serverless-FF6F00?style=for-the-badge" alt="Serverless" />
+  <img src="https://img.shields.io/badge/linguagem-Python%203.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/motor-Rule--Based-7C4DFF?style=for-the-badge" alt="Rule-Based" />
   <img src="https://img.shields.io/badge/status-MVP%20em%20desenvolvimento-blue?style=for-the-badge" alt="Status" />
 </p>
@@ -65,13 +67,13 @@ Cliente (HTTP) ──▶ API Gateway ──▶ Function (Logica de Triagem) ─�
 
 | Categoria | Tecnologia |
 |-----------|-----------|
-| Linguagem | `A definir` (Python / Node.js) |
-| Provedor Cloud | `A definir` (AWS / GCP / Azure) |
-| API Gateway | `A definir` |
-| Functions | `A definir` (Lambda / Cloud Functions / Azure Functions) |
-| Banco de Dados | `A definir` (DynamoDB / Firestore / CosmosDB) |
-| Testes | `A definir` (pytest / Jest) |
-| IaC | `A definir` (Serverless Framework / SAM / Terraform) |
+| Linguagem | Python 3.12 |
+| Provedor Cloud | Amazon Web Services (AWS) |
+| API Gateway | Amazon API Gateway |
+| Functions | AWS Lambda |
+| Banco de Dados | Amazon DynamoDB |
+| Testes | pytest |
+| IaC | AWS SAM (Serverless Application Model) |
 
 ---
 
@@ -79,9 +81,10 @@ Cliente (HTTP) ──▶ API Gateway ──▶ Function (Logica de Triagem) ─�
 
 **Pre-requisitos:**
 
-- Runtime da linguagem escolhida instalado (Python 3.x ou Node.js 18+)
-- CLI do provedor cloud configurada com credenciais validas
-- Framework de emulacao local (ex.: SAM CLI, Serverless Offline)
+- Python 3.12+
+- AWS CLI configurada com credenciais validas (`aws configure`)
+- AWS SAM CLI instalado ([guia de instalacao](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html))
+- Docker (necessario para emulacao local do SAM)
 
 **Passos:**
 
@@ -90,11 +93,14 @@ Cliente (HTTP) ──▶ API Gateway ──▶ Function (Logica de Triagem) ─�
 git clone https://github.com/mateus1hmp/launchcloud-Trion.git
 cd launchcloud-Trion
 
-# 2. Instale as dependencias
-npm install        # ou pip install -r requirements.txt
+# 2. Crie o ambiente virtual e instale as dependencias
+python -m venv venv
+source venv/bin/activate          # Linux/Mac
+pip install -r requirements.txt
 
-# 3. Execute localmente
-npm run dev        # ou sam local start-api
+# 3. Execute localmente com SAM
+sam build --template-file infra/template.yaml
+sam local start-api --template-file infra/template.yaml
 
 # 4. Teste o endpoint de triagem
 curl -X POST http://localhost:3000/triage \
@@ -111,7 +117,8 @@ launchcloud-Trion/
 ├── src/
 │   ├── dominio/                  # Nucleo — entidades e regras de negocio
 │   │   ├── entidades/            #   Modelos puros (Patient, Triage, RiskFactor)
-│   │   └── regras/               #   Motor de regras de pontuacao e classificacao
+│   │   ├── regras/               #   Motor de regras de pontuacao e classificacao
+│   │   └── repositorios/         #   Interfaces (ports) dos repositorios
 │   ├── casos_de_uso/             # Orquestracao — casos de uso da triagem
 │   ├── infraestrutura/           # Adaptadores externos
 │   │   ├── banco_de_dados/       #   Conexao e operacoes com banco NoSQL
@@ -128,7 +135,7 @@ launchcloud-Trion/
 ├── .gitignore
 ├── PADROES_DE_CODIGO.md
 ├── README.md
-└── package.json                  # ou requirements.txt
+└── requirements.txt
 ```
 
 ---

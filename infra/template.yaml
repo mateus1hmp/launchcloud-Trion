@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  MediFlow API — Motor de triagem clinica serverless (Trion).
+
+# ---------------------------------------------------------------------------
+# Parametros globais
+# ---------------------------------------------------------------------------
+Globals:
+  Function:
+    Runtime: python3.12
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        DYNAMODB_TABLE: !Ref TriagesTable
+        LOG_LEVEL: INFO
+
+# ---------------------------------------------------------------------------
+# Recursos
+# ---------------------------------------------------------------------------
+Resources:
+
+  # -------------------------------------------------------------------------
+  # API Gateway
+  # -------------------------------------------------------------------------
+  MediFlowApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: MediFlow-API
+      StageName: dev
+      Description: API Gateway para os endpoints do MediFlow
+
+  # -------------------------------------------------------------------------
+  # Lambda — POST /triage (criar triagem)
+  # -------------------------------------------------------------------------
+  CreateTriageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: mediflow-create-triage
+      Handler: src.manipuladores.triage_handler.create_triage
+      CodeUri: ../
+      Description: Recebe dados do paciente, calcula score de risco e persiste a triagem
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TriagesTable
+      Events:
+        PostTriage:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MediFlowApi
+            Path: /triage
+            Method: POST
+
+  # -------------------------------------------------------------------------
+  # Lambda — GET /triage/{patient_id} (historico do paciente)
+  # -------------------------------------------------------------------------
+  GetTriageFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: mediflow-get-triage
+      Handler: src.manipuladores.triage_handler.get_triage
+      CodeUri: ../
+      Description: Retorna o historico de triagens de um paciente
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:Query
+              Resource: !GetAtt TriagesTable.Arn
+      Events:
+        GetTriage:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MediFlowApi
+            Path: /triage/{patient_id}
+            Method: GET
+
+  # -------------------------------------------------------------------------
+  # Lambda — GET /health (health check)
+  # -------------------------------------------------------------------------
+  HealthCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: mediflow-health-check
+      Handler: src.manipuladores.health_handler.health_check
+      CodeUri: ../
+      Description: Health check do servico
+      MemorySize: 128
+      Timeout: 5
+      Events:
+        HealthCheck:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MediFlowApi
+            Path: /health
+            Method: GET
+
+  # -------------------------------------------------------------------------
+  # DynamoDB — Tabela de Triagens
+  # -------------------------------------------------------------------------
+  TriagesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MediFlow-Triages
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: patient_id
+          AttributeType: S
+        - AttributeName: timestamp
+          AttributeType: S
+      KeySchema:
+        - AttributeName: patient_id
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+
+# ---------------------------------------------------------------------------
+# Outputs
+# ---------------------------------------------------------------------------
+Outputs:
+  ApiUrl:
+    Description: URL base da API MediFlow
+    Value: !Sub "https://${MediFlowApi}.execute-api.${AWS::Region}.amazonaws.com/dev"
+  TriagesTableName:
+    Description: Nome da tabela DynamoDB
+    Value: !Ref TriagesTable
