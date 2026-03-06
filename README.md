@@ -85,7 +85,7 @@ O MediFlow segue uma arquitetura **100% Serverless**, eliminando a necessidade d
 | Provedor Cloud | Amazon Web Services (AWS) |
 | API Gateway | Amazon API Gateway |
 | Functions | AWS Lambda |
-| Banco de Dados | Amazon DynamoDB |
+| Banco de Dados | S3 & RDS(relacional) |
 | Testes | pytest |
 | IaC | AWS SAM (Serverless Application Model) |
 
