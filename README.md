@@ -52,27 +52,19 @@ O **MediFlow** e uma API REST de triagem clinica inteligente que classifica o ni
 O MediFlow segue uma arquitetura **100% Serverless**, eliminando a necessidade de provisionar ou gerenciar servidores.
 
 ```
-graph LR
-    subgraph "Camada de Cliente"
-        A[User / Cliente HTTP]
-    end
-
-    subgraph "AWS Cloud"
-        B(Amazon API Gateway)
-        C{AWS Lambda}
-        D[(Amazon RDS)]
-        E[Amazon S3]
-    end
-
-    A -- "Requisição POST (JSON)" --> B
-    B -- "Gatilho HTTP" --> C
-    C -- "Persistência de Dados e Histórico" --> D
-    C -- "Armazenamento de Relatórios e Estáticos" --> E
-
-    style C fill:#f96,stroke:#333,stroke-width:2px
-    style B fill:#b19cd9,stroke:#333
-    style D fill:#f66,stroke:#333
-    style E fill:#9cf,stroke:#333
+                               ┌─────────────────────────┐
+                               │       Amazon S3         │
+                               │ (Relatórios/Estáticos)  │
+                               └───────────▲─────────────┘
+                                           │
+                                           │
+┌─────────────┐      ┌─────────────┐       │        ┌────────────────────────┐
+│   Cliente   │ ────▶│ API Gateway │ ───▶ Lambda ──▶│       Amazon RDS       │
+│   (HTTP)    │      └─────────────┘       :        │  (Dados e Histórico)   │
+└─────────────┘                            :        └────────────────────────┘
+                                           :
+                                           ▼
+                                   [ Lógica de Triagem ]
 ```
 
 | Camada | Responsabilidade |
