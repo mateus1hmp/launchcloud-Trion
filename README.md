@@ -27,6 +27,7 @@ Em unidades de saude de alta demanda, a triagem clinica manual e um dos principa
 | Marcello Rocha | `@marcellorocha` |
 | Vitor Neves | `@vitorneves` |
 | Joao Castro | `@joaocastro` |
+| Tulio Castro | `@Tulio-CS` |
 
 > **Entrega 1:** 06/03
 > Link: https://www.canva.com/design/DAHC49fCF3M/Pd0S73-5Qq-Oi9XUlseeSA/edit?utm_content=DAHC49fCF3M&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
@@ -51,7 +52,19 @@ O **MediFlow** e uma API REST de triagem clinica inteligente que classifica o ni
 O MediFlow segue uma arquitetura **100% Serverless**, eliminando a necessidade de provisionar ou gerenciar servidores.
 
 ```
-Cliente (HTTP) ──▶ API Gateway ──▶ Function (Logica de Triagem) ──▶ Banco NoSQL
+                                ┌─────────────────────────┐
+                               │       Amazon S3         │
+                               │ (Relatórios/Estáticos)  │
+                               └───────────▲─────────────┘
+                                           │
+                                           │
+┌─────────────┐      ┌─────────────┐       │       ┌────────────────────────┐
+│   Cliente   │ ────▶│ API Gateway │ ───▶ Lambda ──▶│       Amazon RDS       │
+│   (HTTP)    │      └─────────────┘       │       │  (Dados e Histórico)   │
+└─────────────┘                            │       └────────────────────────┘
+                                           │
+                                           ▼
+                                   [ Lógica de Triagem ]
 ```
 
 | Camada | Responsabilidade |
