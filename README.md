@@ -29,6 +29,7 @@ Em unidades de saude de alta demanda, a triagem clinica manual e um dos principa
 | Joao Castro | `@joaocastro` |
 
 > **Entrega 1:** 06/03
+> Link: https://www.canva.com/design/DAHC49fCF3M/Pd0S73-5Qq-Oi9XUlseeSA/edit?utm_content=DAHC49fCF3M&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ---
 
