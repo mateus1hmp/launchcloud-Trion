@@ -1,4 +1,5 @@
 <p align="center">
+  <img src="https://github.com/user-attachments/assets/56b81e90-9a99-459f-abd3-3b17fdcb381c" alt="Logo Trion" width="200">
   <h1 align="center">Trion</h1>
   <p align="center"><strong>MediFlow API</strong> — Triagem clinica inteligente, escalavel e auditavel</p>
 </p>
